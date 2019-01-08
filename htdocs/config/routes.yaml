@@ -24,3 +24,11 @@ tournamentNew:
 tournamentEdit:
   path: /tournaments/{tournament}/edit
   controller: App\Controller\TournamentController::edit
+
+tournamentRegistration:
+  path: /tournaments/{tournament}/registration/{user}
+  controller: App\Controller\TournamentController::registration
+
+tournamentUnregistration:
+  path: /tournaments/{tournament}/unregistration/{user}
+  controller: App\Controller\TournamentController::unregistration
