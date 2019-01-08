@@ -16,3 +16,16 @@ register:
 match:
   path: /match
   controller: App\Controller\MatchController::index
+
+
+tournaments:
+  path: /tournaments
+  controller: App\Controller\TournamentController::index
+
+tournamentNew:
+  path: /tournaments/new
+  controller: App\Controller\TournamentController::new
+
+tournamentEdit:
+  path: /tournaments/{tournament}/edit
+  controller: App\Controller\TournamentController::edit
