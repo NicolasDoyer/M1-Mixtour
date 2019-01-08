@@ -122,6 +122,9 @@ export class Game {
         if(!this.checkParam(move)) {
             throw new Error('Invalid parameters');
         }
+        if (Piece[player.color] !== this.turn) {
+            throw new Error('It is not your turn !');
+        }
 
         if(move.type === 'put') {
             const [startRow, startCol] = move.coords;
