@@ -16,7 +16,7 @@ var
         });
     };
 
-    const game = {"board":[["","WR","","RWW",""],["RRRWWR","","WRR","RW",""],["","WR","R","","WW"],["","WRRWWRR","","",""],["W","","","",""]],"winner":null,"finished":false,"turn":"R","player":"W"};
+    const game = {"board":[["","WR","","RWW",""],["RRWWR","","WRR","RW",""],["","WR","R","","WW"],["","WRRWR","","",""],["W","","","",""]],"winner":null,"finished":false,"turn":"R","player":"R"};
 
     board = [];
     for(let i = 0; i < 5; ++i) {
@@ -59,19 +59,21 @@ var
           for(let i = 0; i < d.piece.length; ++i) {
             piece.append('ellipse')
             .attr('cx', fieldSize / 2)
-            .attr('cy', fieldSize - 10 * (i+3))
+            .attr('cy', fieldSize - 9 * (i+3))
             .attr('rx', '49')
-            .attr('ry', '29')
+            .attr('ry', '24')
             .attr('stroke', '#000')
             .attr('stroke-width', '2px')
-
-
-            //piece.append('rect')
-            //.attr('x', fieldSize / 2 - 25)
-            //.attr('y', fieldSize - 10 * (i+1))
-            //.attr('height', 10)
-            //.attr('width', 50)
             .attr('fill', d.piece[i] === 'R' ? 'red' : 'grey');
+            (i === (d.piece.length - 1) ) ?
+            piece.append('ellipse')
+            .attr('cx', fieldSize / 2)
+            .attr('cy', fieldSize - 9 * (i+4))
+            .attr('rx', '49')
+            .attr('ry', '24')
+            .attr('stroke', '#000')
+            .attr('stroke-width', '2px')
+            .attr('fill', d.piece[i] === 'R' ? 'red' : 'grey') : ''
           }
       })
 
@@ -79,14 +81,25 @@ var
 
       }
 
+      d3.select('body').style('background-color','#333');
       d3.select('body')
       .append('div')
+      .style('margin','auto')
+      .style('left','0')
+      .style('right','0')
+      .style('top','0')
+      .style('bottom','0')
       .style("width","500px")
       .style("text-align", "center")
-      .html(((game.turn === game.player) && (game.player = 'R')) ? "Au joueur Rouge de jouer !" : '<h1>Au joueur <strong>gris</strong> de jouer !</h1>');
+      .html(((game.turn === game.player) && (game.player === 'R') && (!game.finished)) ? "<div class=\"alert alert-dark mt-3\" role=\"alert\">Au joueur <strong>Rouge</strong> de jouer.</div>" : "<div class=\"alert alert-dark mt-3\" role=\"alert\">Au joueur <strong>Gris</strong> de jouer.</div>")
 
     var div = d3.select("body")
         .append("div")
+        .style('margin','auto')
+        .style('left','0')
+        .style('right','0')
+        .style('top','0')
+        .style('bottom','0')
         .style("width", boardSize + "px")
         .style("height", boardSize + "px");
 
