@@ -14,7 +14,6 @@ describe('Game engine', () => {
         assert(game.board);
         assert(game.board.cells.every(row => row.every(cell => cell === '')));
     });
-
     it('should have 2 players red and white', () => {
         const game = new Game();
         const players = Object.values(game.players);
@@ -23,18 +22,27 @@ describe('Game engine', () => {
     })
     it('white player should start', () => {
         const game = new Game();
-        assert(game.turn === Piece.WHITE);
+        assert.equal(game.turn, Piece.WHITE);
     })
     it('put pieces', () => {
         const game = new Game();
         game.board.cells[0][0] = '';
         game.play(game.players['W'], {type: 'put', coords: [0, 0]});
-        assert(game.board.cells[0][0] === 'W');
+        assert.equal(game.board.cells[0][0], 'W');
     })
-    it('red player should continue', () => {
+    it('players may altern', () => {
         const game = new Game();
         game.play(game.players['W'], {type: 'put', coords: [0, 0]});
-        assert(game.turn === Piece.RED);
+        assert.equal(game.turn, Piece.RED);
+        assert.doesNotThrow(() => {
+            game.play(game.players['R'], {type: 'put', coords: [0, 2]})
+        }, { name: 'Error', message: 'It is not your turn !' });
+        assert.doesNotThrow(() => {
+            game.play(game.players['W'], {type: 'put', coords: [0, 3]})
+        }, { name: 'Error', message: 'It is not your turn !' });
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'put', coords: [0, 4]})
+        }, { name: 'Error', message: 'It is not your turn !' });
     })
     it('check put place already taken', () => {
         const game = new Game();
@@ -51,16 +59,39 @@ describe('Game engine', () => {
         }, { name: 'Error', message: 'Player has no pieces' });
     })
 
-//add move start or end empty OR outOfTheBoard
-
     // Move 's mechaniks
-    it('check correct nb of pieces', () => {
+    it('check start cell is empty', () => {
+        const game = new Game();
+        game.board.cells[0][0] = '';
+        game.board.cells[0][1] = 'R';
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,1], nbPieces: 1})
+        }, { name: 'Error', message: 'Start empty' });
+    })
+    it('check end cell is empty', () => {
+        const game = new Game();
+        game.board.cells[0][0] = 'R';
+        game.board.cells[0][1] = '';
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,1], nbPieces: 1})
+        }, { name: 'Error', message: 'End empty' });
+    })
+    it('check target cell out of the board', () => {
+        const game = new Game();
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [-1,10], to: [5,-5], nbPieces: 1})
+        }, { name: 'Error', message: 'Invalid parameters' });
+    })
+    it('check correct nb of pieces and empty after move', () => {
         const game = new Game();
         game.board.cells[0][0] = 'RR';
         game.board.cells[0][2] = 'WW';
         assert.throws(() => {
             game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,2], nbPieces: 3})
         }, { name: 'Error', message: 'Wrong number of pieces' });
+
+        game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,2], nbPieces: 2});
+        assert.equal(game.board.cells[0][0], '');
     })
     it('must fit target height and distance', () => {
         const game = new Game();
@@ -134,38 +165,37 @@ describe('Game engine', () => {
         game.board.cells[3][1] = '';
         game.board.cells[4][0] = 'WRWR';
         assert.throws(() => {
-            game.play(game.players['W'], {type: 'move', from: [4,0], to: [0,4], nbPieces: 4})
+            game.play(game.players['R'], {type: 'move', from: [4,0], to: [0,4], nbPieces: 4})
         }, { name: 'Error', message: 'Unempty cells between start and end' });
     })
 
+    // Win
     it('checks W win', () => {
         const game = new Game();
         game.board.cells[0][0] = 'RWRW';
         game.board.cells[0][4] = 'RWRW';
         game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,4], nbPieces: 4});
-        assert(game.players['W'].backpieces === 20);
-        assert(game.players['R'].backpieces === 20);
-        assert(game.players['W'].score === 1);
-        assert(game.winner === game.players['W']);
+        assert.equal(game.players['W'].backpieces, 24);
+        assert.equal(game.players['R'].backpieces, 24);
+        assert.equal(game.players['W'].score, 1);
+        assert.equal(game.winner, game.players['W']);
     })
+
     //Pass
     it('checks W pass', () => {
         const game = new Game();
-        assert(game.players['W'].pass === true);
+        assert.equal(game.players['W'].pass, false);
+        game.play(game.players['W'], {type: 'pass'});
+        assert.equal(game.players['W'].pass, true);
     })
-    //draw (2 forms)
     it('checks draw by 2 passes', () => {
         const game = new Game();
         game.players['W'].winner = false;
         game.players['R'].winner = false;
         game.players['W'].score = 1;
         game.players['R'].score = 1;
-        game.players['W'].pass = true;
-        game.players['R'].pass = true;
-        assert(game.draw === true);
-
-        /* Et si les deux joueurs sont d'accord : */
-        game.draw = false; // à modifier à l'implémentation de la fonctionnalité
-        assert(game.draw === true);
+        game.play(game.players['W'], {type: 'pass'});
+        game.play(game.players['R'], {type: 'pass'});
+        assert.equal(game.draw, true);
     })
 })

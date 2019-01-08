@@ -48,12 +48,6 @@ export class Game {
         if (this.board.cells[endRow][endCol] === '') {
             throw new Error('End empty');
         }
-        
-        if (startRow < 0 || startCol < 0 || endRow < 0 || endCol < 0 || 
-          startRow >= Board.SIZE || startCol >= Board.SIZE || endRow >= Board.SIZE || endCol >= Board.SIZE
-        ) {
-            throw new Error('Invalid coords');
-        }
 
         if (
             (startRow === endRow && Math.abs(startCol - endCol) === distance) || // vertical
@@ -101,7 +95,7 @@ export class Game {
 
     checkParam(move) {
         if(!move) return false;
-        if(!(move.type === "move" || move.type === "put")) return false;
+        if(!(move.type === "move" || move.type === "put" || move.type === 'pass')) return false;
 
         if(move.type === "move") {
             if(!this.isValidCoords(move.from) || !this.isValidCoords(move.to)) return false;
@@ -128,14 +122,25 @@ export class Game {
         if(!this.checkParam(move)) {
             throw new Error('Invalid parameters');
         }
+        if (Piece[player.color] !== this.turn) {
+            throw new Error('It is not your turn !');
+        }
 
         if(move.type === 'put') {
             const [startRow, startCol] = move.coords;
             this.putPiece(player, startRow, startCol);
+            player.pass = false;
+        } else if (move.type === 'pass') {
+            player.pass = true;
+            if (this.players['R'].pass === true && this.players['R'].pass === true) {
+                this.draw = true;
+                this.finished == true;
+            }
         } else {
             const [startRow, startCol] = move.from;
             const [endRow, endCol] = move.to;
             this.movePieces(player, startRow, startCol, endRow, endCol, move.nbPieces);
+            player.pass = false;
         }
         this.nextTurn();
     }
