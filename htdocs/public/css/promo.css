@@ -102,6 +102,12 @@ header{float: left; width:100%}
     background-color: #f8b500;
 }
 
+.badge-danger {
+    width: 400px;
+    height: 30px;
+    background-color: #00a8b5;
+}
+
 .badge {
     font-size: 20px;
 }
