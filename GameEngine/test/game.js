@@ -24,10 +24,6 @@ describe('Game engine', () => {
         const game = new Game();
         assert.equal(game.turn, Piece.WHITE);
     })
-    it('white player should continue', () => {
-        const game = new Game();
-        assert.equal(game.turn, Piece.RED);
-    })
     it('put pieces', () => {
         const game = new Game();
         game.board.cells[0][0] = '';
