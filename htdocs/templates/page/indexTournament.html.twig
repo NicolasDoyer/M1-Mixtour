@@ -8,7 +8,9 @@
 
     <ul>
     {% for tournament in tournaments %}
-        <li>{{ tournament.name }}<a class="nav-link" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">Modifier</a></li>
+        <li>{{ tournament.name }}<a class="nav-link" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">Modifier</a>
+            <a class="nav-link" href="{{ path('tournamentRegistration', {'tournament' : tournament.id, 'user' : app.user.id}) }}">S'inscrire</a>
+        </li>
     {% endfor %}
     </ul>
     <a class="nav-link" href="{{ path('tournamentNew') }}">Créer un tournoi</a>
