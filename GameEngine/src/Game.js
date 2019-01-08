@@ -101,7 +101,7 @@ export class Game {
 
     checkParam(move) {
         if(!move) return false;
-        if(!(move.type === "move" || move.type === "put")) return false;
+        if(!(move.type === "move" || move.type === "put" || move.type === 'pass')) return false;
 
         if(move.type === "move") {
             if(!this.isValidCoords(move.from) || !this.isValidCoords(move.to)) return false;
@@ -132,10 +132,18 @@ export class Game {
         if(move.type === 'put') {
             const [startRow, startCol] = move.coords;
             this.putPiece(player, startRow, startCol);
+            player.pass = false;
+        } else if (move.type === 'pass') {
+            player.pass = true;
+            if (this.players['R'].pass === true && this.players['R'].pass === true) {
+                this.draw = true;
+                this.finished == true;
+            }
         } else {
             const [startRow, startCol] = move.from;
             const [endRow, endCol] = move.to;
             this.movePieces(player, startRow, startCol, endRow, endCol, move.nbPieces);
+            player.pass = false;
         }
         this.nextTurn();
     }
