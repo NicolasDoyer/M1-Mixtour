@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mixtour' %}
+
+
+{% block stylesheets %}
+    <link href="css/promo.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+{% endblock %}
+{% block body %}
+    <div class="small-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 date-sec">
+                    <div id="Date"></div>
+                </div>
+                <div class="col-lg-3 offset-lg-5">
+                    <div class="social-icon"><a target="_blank" href="#" class=" fa fa-facebook"></a> <a target="_blank"
+                                                                                                         href="#"
+                                                                                                         class=" fa fa-twitter"></a>
+                        <a target="_blank" href="#" class=" fa fa-google-plus"></a> <a target="_blank" href="#"
+                                                                                       class=" fa fa-linkedin"></a> <a
+                                target="_blank" href="#" class=" fa fa-youtube"></a> <a target="_blank" href="#"
+                                                                                        class=" fa fa-vimeo-square"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </header>
+    <section class="banner-sec">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card"><img class="game img-fluid"
+                                           src="img/minoa.png"
+                                           alt="" target="_blank">
+                        <div class="card-body">
+                            <div class="news-title">
+                                <h2 class=" title-small"><a href="https://spielstein.com/games/minoa"><strong>Minoa :</strong><br> Revendiquez votre
+                                        territoire dans ce jeu stratégique.</a>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card"><img class="game img-fluid"
+                                           src="img/paletto.png" alt="" target="_blank">
+                        <div class="card-body">
+                            <div class="news-title">
+                                <h2 class=" title-small"><a href="https://spielstein.com/games/paletto"><strong>Paletto :</strong><br> Un petit jeu coloré
+                                        et intelligent.<br><br></a>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card"><img class="game img-fluid"
+                                           src="img/polar.png"
+                                           alt="" target="_blank">
+                        <div class="card-body">
+                            <div class="news-title">
+                                <h2 class=" title-small"><a href="https://spielstein.com/games/polar"><strong>Polar :</strong><br> Stratégie entre deux
+                                        pôles.<br><br></a>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card"><img class="game img-fluid"
+                                           src="img/manalath.png" target="_blank" alt="">
+                        <div class="card-body">
+                            <div class="news-title">
+                                <h2 class=" title-small"><a href="https://spielstein.com/games/manalath"><strong>Manalath :</strong><br> Faites un groupe de
+                                        cinq pour gagner. Un jeu simplement difficile.</a></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 top-slider">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <div class="news-block">
+                                    <div class="card news-media"><img class="img-fluid"
+                                                                      src="img/mixtour1.png"
+                                                                      alt="">
+                                        <div class="card-img-overlay"><a href=""><span class="badge badge-pill badge-info">S'ENTRAINER</span>
+                                            </a></div>
+                                    </div>
+                                    <div class="news-title">
+                                        <h2 class=" title-large"><a href="#">TENTEZ DE GAGNER LA BOITE DE NOTRE JEU
+                                                MIXTOUR </a></h2>
+                                    </div>
+                                    <div class="news-des">Un jeu de réflexion et de stratégie pour joueurs à partir de
+                                        10 ans.
+                                        Ce jeu à empiler pour fins stratèges est un défi pour leur propre réflexion.
+                                        Au premier coup d'oeil, cela semble simple mais construire des tours se révèle
+                                        plus épineux qu'il n'y paraît..
+                                    </div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="card news-block">
+                                    <div class="news-media"><img class="img-fluid"
+                                                                 src="img/tournoi.png"
+                                                                 alt="" >
+                                        <div class="card-img-overlay"><a href="{{ path('tournaments') }}"><span class="badge badge-pill badge-danger">PARTICIPER</span>
+                                            </a></div>
+                                    </div>
+                                    <div class="news-title">
+                                        <h2 class=" title-large"><a href="#">PARTICIPEZ A NOS DIFFERENTS TOURNOIS POUR GAGNER DIVERS PRIX</a></h2>
+                                    </div>
+                                    <div class="news-des">Le gagnant du tournoi aura la chance de gagner un de nos jeux favoris
+                                        <div></div><br> <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <section class="action-sec">
+        <div class="container">
+            <div class="action-box text-center"><h2>CONSULTEZ NOTRE SITE DE VENTE : </h2><a class="btn btn-success"
+                                                                                            href="https://spielstein.com/games"
+                                                                                            target="_blank">SPIELSTEIN</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/promo.js"></script>
+{% endblock %}
