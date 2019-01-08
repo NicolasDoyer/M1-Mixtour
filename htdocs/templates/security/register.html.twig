@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer un compte' %}
+
+{% block body %}
+    <div class="container mt-4">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        <button class="btn btn-primary" type="submit">S'inscrire</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
