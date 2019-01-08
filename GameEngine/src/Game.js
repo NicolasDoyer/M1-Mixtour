@@ -5,18 +5,16 @@ import { Player } from './Player';
 export class Game {
 
     constructor(max_score = 1, max_tour_height = 5) {
-
-        Game.SCORE_TO_WIN = max_score;
-        Game.MAX_TOUR_HEIGHT = max_tour_height;
-        Game.draw = false;
+        this.max_score = 1;
+        this.max_tour_height = 5;
 
         this.board = new Board();
         this.turn = Piece.WHITE;
         this.players = {};
-        this.winner = undefined;
-
+        this.winner = null;
         this.players[Piece.WHITE] = new Player('WHITE');
         this.players[Piece.RED] = new Player('RED'); 
+        this.finished = false;
     }
 
     nextTurn() {
@@ -62,8 +60,8 @@ export class Game {
             (startCol === endCol && Math.abs(startRow - endRow) === distance) || // horizontal
             (Math.abs(startRow - endRow) === distance && Math.abs(startCol - endCol) === distance) // diagonal
         ) {
-            const signCol = Math.sign(startCol - endCol);
-            const signRow = Math.sign(startRow - endRow);
+            const signCol = Math.sign(endCol - startCol);
+            const signRow = Math.sign(endRow - startRow);
             for(let i = 1; i < distance; ++i) {
                 console.log(signRow, signCol)
                 if(this.board.cells[startRow + i * signRow][startCol + i * signCol] !== '') {
@@ -80,18 +78,19 @@ export class Game {
 
         // On est bon ptdr =>XD
         this.board.cells[endRow][endCol] += this.board.cells[startRow][startCol].slice(-nbPieces);
-        this.board.cells[startRow][startCol] = this.board.cells[startRow][startCol].slice(this.board.cells[startRow][startCol].length - nbPieces);
+        this.board.cells[startRow][startCol] = this.board.cells[startRow][startCol].slice(0, this.board.cells[startRow][startCol].length - nbPieces);
 
         // Check win
-        if (this.board.cells[endRow][endCol].length >= Game.MAX_TOUR_HEIGHT) {
+        if (this.board.cells[endRow][endCol].length >= this.max_tour_height) {
             const stack = this.board.cells[endRow][endCol];
             this.board.cells[endRow][endCol] = '';
             for(const piece of stack) {
                 this.players[piece].backpieces++;
             }
             player.score++;
-            if (player.score >= SCORE_TO_WIN) {
-                this.winner = true;
+            if (player.score >= this.max_score) {
+                this.winner = player;
+                this.finished = true;
             }
         }    
     }
@@ -139,9 +138,5 @@ export class Game {
             this.movePieces(player, startRow, startCol, endRow, endCol, move.nbPieces);
         }
         this.nextTurn();
-    }
-
-    finished() {
-        return !!this.winner;
     }
 }
