@@ -20,6 +20,22 @@ describe('Game engine', () => {
         assert(players.find(p => p.color === 'WHITE'));
     })
 
+    // Game test
+    it('put pieces', () => {
+        const game = new Game();
+        game.play(game.players['W'], {type: 'put', coords: [0,0]})
+        assert(game.board.cells[0][0] === 'W');
+
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'put', coords: [0,0]})
+        }, { name: 'Error', message: 'Place already taken' });
+
+        game.players['W'].backpieces = 0;
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'put', coords: [1,1]})
+        }, { name: 'Error', message: 'Player has no pieces' });
+    })
+
     // Move 's mechaniks
     it('check correct nb of pieces', () => {
         game.board.cells[0][0] = 'RR';
