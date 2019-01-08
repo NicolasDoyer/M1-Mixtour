@@ -48,12 +48,6 @@ export class Game {
         if (this.board.cells[endRow][endCol] === '') {
             throw new Error('End empty');
         }
-        
-        if (startRow < 0 || startCol < 0 || endRow < 0 || endCol < 0 || 
-          startRow >= Board.SIZE || startCol >= Board.SIZE || endRow >= Board.SIZE || endCol >= Board.SIZE
-        ) {
-            throw new Error('Invalid coords');
-        }
 
         if (
             (startRow === endRow && Math.abs(startCol - endCol) === distance) || // vertical

@@ -71,7 +71,7 @@ describe('Game engine', () => {
         const game = new Game();
         assert.throws(() => {
             game.play(game.players['W'], {type: 'move', from: [-1,10], to: [5,-5], nbPieces: 1})
-        }, { name: 'Error', message: 'Invalid coords' });
+        }, { name: 'Error', message: 'Invalid parameters' });
     })
     it('check correct nb of pieces and empty after move', () => {
         const game = new Game();
@@ -80,6 +80,8 @@ describe('Game engine', () => {
         assert.throws(() => {
             game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,2], nbPieces: 3})
         }, { name: 'Error', message: 'Wrong number of pieces' });
+
+        game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,2], nbPieces: 2});
         assert.equal(game.board.cells[0][0], '');
     })
     it('must fit target height and distance', () => {
