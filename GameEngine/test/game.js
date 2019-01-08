@@ -14,7 +14,6 @@ describe('Game engine', () => {
         assert(game.board);
         assert(game.board.cells.every(row => row.every(cell => cell === '')));
     });
-
     it('should have 2 players red and white', () => {
         const game = new Game();
         const players = Object.values(game.players);
@@ -51,16 +50,37 @@ describe('Game engine', () => {
         }, { name: 'Error', message: 'Player has no pieces' });
     })
 
-//add move start or end empty OR outOfTheBoard
-
     // Move 's mechaniks
-    it('check correct nb of pieces', () => {
+    it('check start cell is empty', () => {
+        const game = new Game();
+        game.board.cells[0][0] = '';
+        game.board.cells[0][1] = 'R';
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,1], nbPieces: 1})
+        }, { name: 'Error', message: 'Start empty' });
+    })
+    it('check end cell is empty', () => {
+        const game = new Game();
+        game.board.cells[0][0] = 'R';
+        game.board.cells[0][1] = '';
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,1], nbPieces: 1})
+        }, { name: 'Error', message: 'End empty' });
+    })
+    it('check target cell out of the board', () => {
+        const game = new Game();
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [-1,10], to: [5,-5], nbPieces: 1})
+        }, { name: 'Error', message: 'Invalid coords' });
+    })
+    it('check correct nb of pieces and empty after move', () => {
         const game = new Game();
         game.board.cells[0][0] = 'RR';
         game.board.cells[0][2] = 'WW';
         assert.throws(() => {
             game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,2], nbPieces: 3})
         }, { name: 'Error', message: 'Wrong number of pieces' });
+        assert.equal(game.board.cells[0][0], '');
     })
     it('must fit target height and distance', () => {
         const game = new Game();
