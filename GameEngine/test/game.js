@@ -29,49 +29,48 @@ describe('Game engine', () => {
     it('check pieces left', () => {
         game.players['W'].backpieces = 0;
         game.board.cells[0][4] = '';
-        assert.throws(function() {game.play(game.players['W'], -1, -1, 0, 4, 4)}, Error, "player has no pieces", "")
+        assert.throws(function() {game.play(game.players['W'], {type: 'put', coords: [0, 4]})}, Error, "player has no pieces", "")
     })
     it('check place already taken', () => {
-        assert.throws(function() {game.play(game.players['W'], -1, -1, 0, 4, 4)}, Error, "place already taken", "")
+        assert.throws(function() {game.play(game.players['W'], {type: 'put', coords: [0, 4]})}, Error, "place already taken", "")
     })
     it('must fit target height and distance', () => {
         game.board.cells[1][1] = 'WWR';
         game.board.cells[4][4] = 'WR';
-        assert.throws(function() {game.play(game.players['W'], 1, 1, 4, 4, 3)}, Error, "bad targetted distance", "")
+        assert.throws(function() {game.play(game.players['W'], {type: 'move', from: [1, 1], to: [4, 4], nbPieces: 3})}, Error, "bad targetted distance", "")
     })
     it('must fit target height and distance', () => {
         game.board.cells[3][0] = 'R';
         game.board.cells[3][2] = 'W';
-        assert.throws(function() {game.play(game.players['W'], 3, 0, 3, 2, 1)}, Error, "bad targetted distance", "")
+        assert.throws(function() {game.play(game.players['W'], {type: 'move', from: [3, 0], to: [3, 2], nbPieces: 1})}, Error, "bad targetted distance", "")
     })
     it('must not have piece between', () => {
         game.board.cells[1][1] = 'WWR';
         game.board.cells[3][3] = 'R';
         game.board.cells[4][4] = 'WRW';
-        assert.throws(function() {game.play(game.players['W'], 1, 1, 4, 4, 3)}, Error, "Unempty cells between start and end", "")
+        assert.throws(function() {game.play(game.players['W'], {type: 'move', from: [1, 1], to: [4, 4], nbPieces: 3})}, Error, "Unempty cells between start and end", "")
     })
     it('cannot split', () => {
         game.board.cells[0][1] = 'R';
         game.board.cells[0][2] = 'WRWR';
-        assert.throws(function() {game.play(game.players['W'], 0, 1, 0, 3, -1)}, Error, "cannot split", "")
+        assert.throws(function() {game.play(game.players['W'], {type: 'move', from: [0, 1], to: [0, 3], nbPieces: -1})}, Error, "cannot split", "")
     })
     it('can goes (splited T4 on T1)', () => {
         game.board.cells[0][1] = 'R';
         game.board.cells[0][2] = 'WRWR';
-        assert.doesNotThrow(function() {game.play(game.players['W'], 0, 2, 0, 1, 3)}, Error, "bad targetted distance", "")
+        assert.doesNotThrow(function() {game.play(game.players['W'], {type: 'move', from: [0, 2], to: [0, 1], nbPieces: 3})}, Error, "bad targetted distance", "")
         game.board.cells[0][1] = 'R';
         game.board.cells[0][2] = 'WRWR';
-        assert.doesNotThrow(function() {game.play(game.players['W'], 0, 2, 0, 1, 3)}, Error, "cannot split", "")
+        assert.doesNotThrow(function() {game.play(game.players['W'], {type: 'move', from: [0, 2], to: [0, 1], nbPieces: 3})}, Error, "cannot split", "")
     })
     it('can goes (T3 on T2)', () => {
         game.board.cells[2][1] = 'WRW';
         game.board.cells[2][2] = '';
         game.board.cells[2][3] = 'WR';
-        assert.doesNotThrow(function() {game.play(game.players['W'], 2, 1, 2, 3, 3)}, Error, "bad targetted distance", "")
+        assert.doesNotThrow(function() {game.play(game.players['W'], {type: 'move', from: [2, 1], to: [2, 3], nbPieces: 3})}, Error, "bad targetted distance", "")
         game.board.cells[2][1] = 'WRW';
         game.board.cells[2][2] = '';
         game.board.cells[2][3] = 'WR';
-        assert.doesNotThrow(function() {game.play(game.players['W'], 2, 1, 2, 3, 3)}, Error, "Unempty cells between start and end", "")
+        assert.doesNotThrow(function() {game.play(game.players['W'], {type: 'move', from: [2, 1], to: [2, 3], nbPieces: 3})}, Error, "Unempty cells between start and end", "")
     })
-
 })

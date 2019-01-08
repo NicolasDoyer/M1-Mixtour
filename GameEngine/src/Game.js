@@ -92,11 +92,47 @@ export class Game {
         }    
     }
 
-    play(player, startRow, startCol, endRow, endCol, nbPieces) {
-        if (startRow === -1 && startCol === -1) { // put pieces
+    isValidCoords(coords) {
+        return coords && coords.length === 2 && coords.every(c => Number.isInteger(c) && c >= 0 && c < Board.BOARD_SIZE);
+    }
+
+    checkParam(move) {
+        if(!move) return false;
+        if(!(move.type === "move" || move.type === "put")) return false;
+
+        if(move.type === "move") {
+            if(!this.isValidCoords(move.from) || !this.isValidCoords(move.to)) return false;
+            if(!move.nbPieces || !Number.isInteger(move.nbPieces) || move.nbPieces <= 0) return false; 
+        }
+        else if(move.type === "put") {
+            if(!this.isValidCoords(move.coords)) return false;
+        }
+        return true;
+    }
+
+    /** 
+     * {
+     *  type: "move" | "put",
+     *  // put
+     *  coords: [x, y],
+     *  // move
+     *  from: [x, y],
+     *  to: [x, y],
+     *  nbPieces: int
+     * }
+     */
+    play(player, move) {
+        if(!this.checkParam(move)) {
+            throw new Error('Invalid parameters');
+        }
+
+        if(move.type === 'put') {
+            const [startRow, startCol] = move.coords;
             this.putPiece(player, startRow, startCol);
-        } else { // move pieces
-            this.movePieces(player, startRow, startCol, endRow, endCol, nbPieces);
+        } else {
+            const [startRow, startCol] = move.from;
+            const [endRow, endCol] = move.to;
+            this.movePieces(player, startRow, startCol, endRow, endCol, move.nbPieces);
         }
         this.nextTurn();
     }
