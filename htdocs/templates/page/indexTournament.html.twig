@@ -2,14 +2,44 @@
 
 {% block title 'Mixtour' %}
 
+{% block stylesheets %}
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+{% endblock %}
+
 {% block body %}
     <div class="jumbotron">Liste Tournois</div>
 
+    <div class="center-block">
+        <table id="tournament" class="table table-striped table-bordered" style="width:90%;margin : 0px auto; ">
+            <thead>
+            <tr>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Description</th>
+                <th class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for tournament in tournaments %}
+                    <tr>
+                        <td class="text-center">{{ tournament.name }}</td>
+                        <td class="text-center">{{ tournament.name }}</td>
+                        <td class="text-center">{{ tournament.description }}</td>
+                        <td class="text-center"><a class="nav-link btn btn-info" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">Modifier</a></td>
+                    </tr>
 
-    <ul>
-    {% for tournament in tournaments %}
-        <li>{{ tournament.name }}<a class="nav-link" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">Modifier</a></li>
-    {% endfor %}
-    </ul>
-    <a class="nav-link" href="{{ path('tournamentNew') }}">Créer un tournoi</a>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <div class="center-block" style="margin: 0px auto">
+            <a class="btn btn-info text-center" href="{{ path('tournamentNew') }}">Créer un tournoi</a>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" language="javascript" src="lib/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="lib/dataTables.bootstrap4.min.js"></script>
+    <script src="js/tournament.js"></script>
 {% endblock %}
