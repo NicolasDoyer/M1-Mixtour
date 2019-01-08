@@ -30,10 +30,19 @@ describe('Game engine', () => {
         game.play(game.players['W'], {type: 'put', coords: [0, 0]});
         assert.equal(game.board.cells[0][0], 'W');
     })
-    it('red player should continue', () => {
+    it('players may altern', () => {
         const game = new Game();
         game.play(game.players['W'], {type: 'put', coords: [0, 0]});
         assert.equal(game.turn, Piece.RED);
+        assert.doesNotThrow(() => {
+            game.play(game.players['R'], {type: 'put', coords: [0, 2]})
+        }, { name: 'Error', message: 'It is not your turn !' });
+        assert.doesNotThrow(() => {
+            game.play(game.players['W'], {type: 'put', coords: [0, 3]})
+        }, { name: 'Error', message: 'It is not your turn !' });
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'put', coords: [0, 4]})
+        }, { name: 'Error', message: 'It is not your turn !' });
     })
     it('check put place already taken', () => {
         const game = new Game();
