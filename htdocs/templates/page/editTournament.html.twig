@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mixtour' %}
+
+{% block body %}
+    <div class="jumbotron">Modification Tournoi</div>
+
+    <div class="container mt-4">
+        {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <button class="btn btn-primary" type="submit">Modifier</button>
+        <a class="nav-link" href="{{ path('tournaments') }}">Retour</a>
+
+        {{ form_end(edit_form) }}
+    </div>
+
+{% endblock %}
