@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mixtour' %}
+
+{% block body %}
+    <div class="jumbotron">Liste Tournois</div>
+
+
+    <ul>
+    {% for tournament in tournaments %}
+        <li>{{ tournament.name }}<a class="nav-link" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">Modifier</a></li>
+    {% endfor %}
+    </ul>
+    <a class="nav-link" href="{{ path('tournamentNew') }}">Créer un tournoi</a>
+{% endblock %}
