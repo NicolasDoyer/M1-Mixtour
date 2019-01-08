@@ -16,7 +16,7 @@ var
         });
     };
 
-    const game = {"board":[["","","","",""],["","","WRR","RW",""],["","WR","R","","WW"],["","WRR","","",""],["W","","","",""]],"winner":null,"finished":false,"turn":"R","player":"W"};
+    const game = {"board":[["","WR","","RWW",""],["RRRWWR","","WRR","RW",""],["","WR","R","","WW"],["","WRRWWRR","","",""],["W","","","",""]],"winner":null,"finished":false,"turn":"R","player":"W"};
 
     board = [];
     for(let i = 0; i < 5; ++i) {
@@ -57,11 +57,20 @@ var
           .attr('class', 'piece');
 
           for(let i = 0; i < d.piece.length; ++i) {
-            piece.append('rect')
-            .attr('x', fieldSize / 2 - 25)
-            .attr('y', fieldSize - 10 * (i+1))
-            .attr('height', 10)
-            .attr('width', 50)
+            piece.append('ellipse')
+            .attr('cx', fieldSize / 2)
+            .attr('cy', fieldSize - 10 * (i+3))
+            .attr('rx', '49')
+            .attr('ry', '29')
+            .attr('stroke', '#000')
+            .attr('stroke-width', '2px')
+
+
+            //piece.append('rect')
+            //.attr('x', fieldSize / 2 - 25)
+            //.attr('y', fieldSize - 10 * (i+1))
+            //.attr('height', 10)
+            //.attr('width', 50)
             .attr('fill', d.piece[i] === 'R' ? 'red' : 'grey');
           }
       })
@@ -69,6 +78,12 @@ var
 
 
       }
+
+      d3.select('body')
+      .append('div')
+      .style("width","500px")
+      .style("text-align", "center")
+      .html(((game.turn === game.player) && (game.player = 'R')) ? "Au joueur Rouge de jouer !" : '<h1>Au joueur <strong>gris</strong> de jouer !</h1>');
 
     var div = d3.select("body")
         .append("div")
@@ -78,5 +93,6 @@ var
     var svg = div.append("svg")
          .attr("width", boardSize + "px")
          .attr("height", boardSize + "px")
+
 
     drawBoard(board);
