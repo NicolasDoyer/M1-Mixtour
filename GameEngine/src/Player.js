@@ -8,5 +8,6 @@ export class Player {
         this.backpieces = NB_BACKPIECES;
         this.color = color;
         this.score = 0;
+        this.pass = false;
     }
 }

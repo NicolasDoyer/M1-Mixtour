@@ -2,10 +2,14 @@ import { Board } from './Board';
 import { Piece } from './Piece';
 import { Player } from './Player';
 
-const SCORE_TO_WIN = 1;
-
 export class Game {
-    constructor() {
+
+    constructor(max_score = 1, max_tour_height = 5) {
+
+        Game.SCORE_TO_WIN = max_score;
+        Game.MAX_TOUR_HEIGHT = max_tour_height;
+        Game.draw = false;
+
         this.board = new Board();
         this.turn = Piece.WHITE;
         this.players = {};
@@ -67,19 +71,19 @@ export class Game {
                 }
             }
         } else {
-            throw new Error('bad targetted distance');
+            throw new Error('Bad targetted distance');
         }
 
         if (this.board.cells[startRow][startCol].length < nbPieces || nbPieces <= 0) {
-            throw new Error('Invalid move');
+            throw new Error('Wrong number of pieces');
         }
 
-        // On est bon ptdr
+        // On est bon ptdr =>XD
         this.board.cells[endRow][endCol] += this.board.cells[startRow][startCol].slice(-nbPieces);
         this.board.cells[startRow][startCol] = this.board.cells[startRow][startCol].slice(this.board.cells[startRow][startCol].length - nbPieces);
 
         // Check win
-        if (this.board.cells[endRow][endCol].length >= 5) {
+        if (this.board.cells[endRow][endCol].length >= Game.MAX_TOUR_HEIGHT) {
             const stack = this.board.cells[endRow][endCol];
             this.board.cells[endRow][endCol] = '';
             for(const piece of stack) {
@@ -87,7 +91,7 @@ export class Game {
             }
             player.score++;
             if (player.score >= SCORE_TO_WIN) {
-                this.winner = player;
+                this.winner = true;
             }
         }    
     }
