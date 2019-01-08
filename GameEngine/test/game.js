@@ -146,7 +146,7 @@ describe('Game engine', () => {
         assert(game.players['W'].backpieces === 20);
         assert(game.players['R'].backpieces === 20);
         assert(game.players['W'].score === 1);
-        assert(game.players['W'].winner === true);
+        assert(game.winner === game.players['W']);
     })
     //Pass
     it('checks W pass', () => {
