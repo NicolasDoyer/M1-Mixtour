@@ -71,6 +71,17 @@ class TournamentController extends AbstractController{
 
         return $this->redirectToRoute('tournaments');
 
+    }
+
+    public function unregistration(Tournament $tournament, User $user){
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $tournament->removeUser($user);
+        $manager->persist($tournament);
+        $manager->flush();
+
+        return $this->redirectToRoute('tournaments');
 
     }
 
