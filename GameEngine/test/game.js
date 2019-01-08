@@ -22,18 +22,18 @@ describe('Game engine', () => {
     })
     it('white player should start', () => {
         const game = new Game();
-        assert(game.turn === Piece.WHITE);
+        assert.equal(game.turn, Piece.WHITE);
     })
     it('put pieces', () => {
         const game = new Game();
         game.board.cells[0][0] = '';
         game.play(game.players['W'], {type: 'put', coords: [0, 0]});
-        assert(game.board.cells[0][0] === 'W');
+        assert.equal(game.board.cells[0][0], 'W');
     })
     it('red player should continue', () => {
         const game = new Game();
         game.play(game.players['W'], {type: 'put', coords: [0, 0]});
-        assert(game.turn === Piece.RED);
+        assert.equal(game.turn, Piece.RED);
     })
     it('check put place already taken', () => {
         const game = new Game();
@@ -158,34 +158,33 @@ describe('Game engine', () => {
         }, { name: 'Error', message: 'Unempty cells between start and end' });
     })
 
+    // Win
     it('checks W win', () => {
         const game = new Game();
         game.board.cells[0][0] = 'RWRW';
         game.board.cells[0][4] = 'RWRW';
         game.play(game.players['W'], {type: 'move', from: [0,0], to: [0,4], nbPieces: 4});
-        assert(game.players['W'].backpieces === 20);
-        assert(game.players['R'].backpieces === 20);
-        assert(game.players['W'].score === 1);
-        assert(game.winner === game.players['W']);
+        assert.equal(game.players['W'].backpieces, 24);
+        assert.equal(game.players['R'].backpieces, 24);
+        assert.equal(game.players['W'].score, 1);
+        assert.equal(game.winner, game.players['W']);
     })
+
     //Pass
     it('checks W pass', () => {
         const game = new Game();
-        assert(game.players['W'].pass === true);
+        assert.equal(game.players['W'].pass, false);
+        game.play(game.players['W'], {type: 'pass'});
+        assert.equal(game.players['W'].pass, true);
     })
-    //draw (2 forms)
     it('checks draw by 2 passes', () => {
         const game = new Game();
         game.players['W'].winner = false;
         game.players['R'].winner = false;
         game.players['W'].score = 1;
         game.players['R'].score = 1;
-        game.players['W'].pass = true;
-        game.players['R'].pass = true;
-        assert(game.draw === true);
-
-        /* Et si les deux joueurs sont d'accord : */
-        game.draw = false; // à modifier à l'implémentation de la fonctionnalité
-        assert(game.draw === true);
+        game.play(game.players['W'], {type: 'pass'});
+        game.play(game.players['R'], {type: 'pass'});
+        assert.equal(game.draw, true);
     })
 })
