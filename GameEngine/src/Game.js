@@ -9,6 +9,7 @@ export class Game {
         this.max_tour_height = 5;
 
         this.board = new Board();
+        this.previousBoard = new Board();
         this.turn = Piece.WHITE;
         this.players = {};
         this.winner = null;
@@ -37,14 +38,33 @@ export class Game {
         player.backpieces--;
     }
 
+    savePreviousBoard() {
+        for (var i = 0; i < this.board.BOARD_SIZE; i++) {
+            for (var j = 0; j < this.board.BOARD_SIZE; j++) {
+                for (var k = 0; k < this.board.cells[i][j].length; k++) {
+                    this.previousBoard[i][j][k] = this.board.cells[i][j][k];
+                }
+            }
+        }
+    }
+
+    checkSamePreviousBoard() {
+        for (var i = 0; i < this.board.BOARD_SIZE; i++) {
+            for (var j = 0; j < this.board.BOARD_SIZE; j++) {
+                if (this.board.cells[i][j] !== this.previousBoard[i][j]) {
+                    return true;
+                }
+            }
+        }
+        return false
+    }
+
     movePieces(player, startRow, startCol, endRow, endCol, nbPieces) {
         const distance = this.board.cells[endRow][endCol].length;
-        console.log(distance);
 
         if (this.board.cells[startRow][startCol] === '') {
             throw new Error('Start empty');
         }
-
         if (this.board.cells[endRow][endCol] === '') {
             throw new Error('End empty');
         }
@@ -57,7 +77,6 @@ export class Game {
             const signCol = Math.sign(endCol - startCol);
             const signRow = Math.sign(endRow - startRow);
             for(let i = 1; i < distance; ++i) {
-                console.log(signRow, signCol)
                 if(this.board.cells[startRow + i * signRow][startCol + i * signCol] !== '') {
                     throw new Error('Unempty cells between start and end');
                 }
@@ -70,9 +89,25 @@ export class Game {
             throw new Error('Wrong number of pieces');
         }
 
-        // On est bon ptdr =>XD
+        // On est apparamment bon
         this.board.cells[endRow][endCol] += this.board.cells[startRow][startCol].slice(-nbPieces);
         this.board.cells[startRow][startCol] = this.board.cells[startRow][startCol].slice(0, this.board.cells[startRow][startCol].length - nbPieces);
+
+        if (this.checkSamePreviousBoard() === false) {
+        // Ah bah non
+            this.board.cells[startRow][startCol] += this.board.cells[endRow][endCol].slice(-nbPieces);
+            this.board.cells[endRow][endCol] = this.board.cells[endRow][endCol].slice(0, this.board.cells[endRow][endCol].length - nbPieces);
+
+            for (var i = 0; i < this.board.BOARD_SIZE; i++) {
+                for (var j = 0; j < this.board.BOARD_SIZE; j++) {
+                    console.log(this.previousBoard[i][j] +'\n'+ this.board.cells[i][j]);
+                }
+            }
+
+            throw new Error('Cannot return to previous board');
+        }
+
+        this.savePreviousBoard();
 
         // Check win
         if (this.board.cells[endRow][endCol].length >= this.max_tour_height) {
