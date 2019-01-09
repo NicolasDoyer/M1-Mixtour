@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mixtour' %}
+
+{% block body %}
+    <div class="jumbotron">Mon Historique</div>
+
+    <ul>
+    {% for match in matchs %}
+        {% if match.vainqueur.id == app.user.id %}
+            <li style="background-color: green">
+                {{ match.tournoi.name }} : {{ match.joueur1.fullname }} - {{ match.joueur2.fullname }}
+            </li>
+        {% elseif match.vainqueur == NULL %}
+            <li style="background-color: grey">
+                {{ match.tournoi.name }} : {{ match.joueur1.fullname }} - {{ match.joueur2.fullname }}
+            </li>
+            {% else %}
+                <li style="background-color: red">
+                    {{ match.tournoi.name }} : {{ match.joueur1.fullname }} - {{ match.joueur2.fullname }}
+                </li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
