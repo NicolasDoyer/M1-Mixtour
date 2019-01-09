@@ -6,17 +6,6 @@ import { Piece } from './Piece';
 
 const queue = [];
 
-const game = new Game();
-const test = {
-  board: game.board.cells,
-  finished: game.finished,
-  winner: game.winner,
-  turn: game.turn,
-  player: 'W',
-}
-
-console.log(JSON.stringify(test))
-
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
@@ -27,12 +16,12 @@ io.on('connection', (socket) => {
 
 function goToQueue() {
   queue.push(this);
-  socket.emit('queueValidation');
-  socket.off('goToQueue');
+  this.emit('queueValidation');
+  this.removeAllListeners('goToQueue');
 }
 
 function checkQueue() {
-  while(queue.length > 2) {
+  while(queue.length >= 2) {
     const sockets = queue.splice(-2);
     const game = new Game();
     sockets[0].player = game.players[Piece.WHITE];
@@ -44,7 +33,7 @@ function checkQueue() {
           finished: game.finished,
           winner: game.winner,
           turn: game.turn,
-          player: socket.player.color
+          player: Piece[socket.player.color]
         });
       });
     }
@@ -54,14 +43,21 @@ function checkQueue() {
         try {
           game.play(socket.player, move);
           emitBoard();
-          if (game.finished()) {
+          if (game.finished) {
             sockets.forEach((socket) => {
               socket.off('move');
               goToQueue.apply(socket);
             });
           }
         } catch(error) {
-          socket.emit('error', {msg: error.toString()})
+          socket.emit('board', {
+            board: game.board.cells,
+            finished: game.finished,
+            winner: game.winner,
+            turn: game.turn,
+            player: Piece[socket.player.color]
+          });
+          socket.emit('fuck', {msg: error.toString()})
         }
       });
     });

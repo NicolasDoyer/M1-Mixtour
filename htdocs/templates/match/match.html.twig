@@ -2,12 +2,23 @@
 
 {% block title 'Mixtour' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/css/match.css">
+{% endblock %}
+
 {% block body %}
+    <div class="main-container">
+        <div id="match-info" class="alert alert-dark mt-3" role="alert">
+            En attente d'un joueur
+        </div>
+        <svg id="canvas"></svg>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
 
 <script src="/d3/d3.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/mixtour.js"></script>
 
 {% endblock %}

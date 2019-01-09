@@ -1,0 +1,39 @@
+body {
+    background-color: #333;
+}
+
+.main-container {
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 500px;
+    text-align: center;
+}
+
+.cell rect {
+    fill: #c19a6b;
+    stroke: #4a3a28;
+}
+
+.piece ellipse {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.piece.red ellipse {
+    fill: red;
+}
+
+.piece.red.hover ellipse {
+    fill: rgb(241, 82, 82);
+}
+
+.piece.white ellipse {
+    fill: rgb(255, 255, 255);
+}
+
+.piece.white.hover ellipse {
+    fill: rgb(192, 237, 255);
+}
