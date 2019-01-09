@@ -19,6 +19,20 @@ class MatchRepository extends ServiceEntityRepository
         parent::__construct($registry, Match::class);
     }
 
+    public function findAllMatchesByUser($user): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT * FROM `match` m
+        WHERE m.joueur1_id = :user OR m.joueur2_id = :user';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['user' => $user->getId()]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
+
     // /**
     //  * @return Match[] Returns an array of Match objects
     //  */

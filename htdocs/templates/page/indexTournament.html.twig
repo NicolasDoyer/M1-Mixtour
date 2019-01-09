@@ -16,7 +16,7 @@
                 <th class="text-center">Nom</th>
                 <th class="text-center">Date de debut</th>
                 <th class="text-center">Description</th>
-                <th class="text-center"></th>
+                <th class="text-center">Play</th>
             </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                         <td class="text-center">{{ tournament.name }}</td>
                         <td class="text-center">{{ tournament.date | date("d/m/y à h:i'") }}</td>
                         <td class="text-center">{{ tournament.description }}</td>
-
+                        <td class="text-center"><a href="">play</a></td>
                     </tr>
 
                 {% endfor %}

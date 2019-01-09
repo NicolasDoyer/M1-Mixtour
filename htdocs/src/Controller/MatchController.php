@@ -10,19 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MatchController extends AbstractController{
 
-    public function index(User $user)
+    public function index()
     {
-
-        $manager = $this->getDoctrine()->getManager();
-
-        $matchs = $manager->createQuery('SELECT M FROM Match M 
-                            WHERE M.joueur1 = :user OR M.joueur2 = :user')
-            ->setParameter('user', $user)
-            ->getResult();
-
-        return $this->render('page/mesMatchs.html.twig', [
-            'matchs' => $matchs,
-        ]);
+        if($this->getUser()){
+            $entityManager = $this->getDoctrine()->getRepository(Match::class);
+            return $this->render('page/mesMatchs.html.twig', [
+                'matchs' => $entityManager->findAllMatchesByUser($this->getUser()),
+            ]);
+        }
+        return $this->redirectToRoute('security_login');
     }
 
 }

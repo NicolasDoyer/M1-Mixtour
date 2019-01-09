@@ -3,7 +3,7 @@ home:
   controller: App\Controller\HomeController::index
 
 security_login:
-  path: /signin
+  path: /login
   controller: App\Controller\SecurityController::signin
 
 security_logout:
@@ -50,5 +50,5 @@ tournamentUnregistration:
   controller: App\Controller\TournamentController::unregistration
 
 mesMatchs:
-  path: /mesMatchs/{user}
+  path: /mesMatchs
   controller: App\Controller\MatchController::index
