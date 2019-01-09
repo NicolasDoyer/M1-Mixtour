@@ -4,6 +4,8 @@ const boardSize = boardDimension * fieldSize;
 
 let board = [];
 const svg = d3.select('#canvas');
+let params = new URLSearchParams(document.location.search.substring(1));
+const tournamentId = params.get('tournament');
 
 const socket = io('http://localhost:3000/');
 socket.on('fuck', (error) => {
@@ -15,8 +17,8 @@ fetch('/api/createtoken').then(response => {
     console.log(response);
     if(response.status === 200) {
         response.json().then(json => {
-            socket.emit('goToQueue', json.token);
-        })
+            socket.emit('goToQueue', {token: json.token, tournamentId: tournamentId });
+        });
     } else {
         response.json().then(json => {
             d3.select('#match-info').text(json.message);
@@ -26,9 +28,24 @@ fetch('/api/createtoken').then(response => {
 
 socket.on('queueValidation', () => {
     socket.on('board', (game) => {
-        d3.select('#match-info')
-            .text((game.turn === game.player) ? 'A votre tour de jouer !' : 'Au joueur adversaire de jouer !');
-
+        if (game.finished) {
+            console.log('ok')
+            if (!game.winner) {
+                d3.select('#match-info')
+                    .text('Partie nulle !');
+            } else if (game.winner === game.player) {
+                d3.select('#match-info')
+                    .text('Vous avez gagné !');
+            } else {
+                d3.select('#match-info')
+                    .text('Vous avez perdu');
+            }
+        } else {
+            d3.select('#match-info')
+                .text((game.turn === game.player) ? 'A votre tour de jouer !' : 'Au joueur adversaire de jouer !');
+        }
+        
+        
         console.log(game);
         board = [];
         for (let i = 0; i < 5; ++i) {
@@ -135,6 +152,7 @@ function drawBoard() {
 
                 piece.call(d3.drag()
                     .on('start', function() {
+                        dragGroup.selectAll('.piece').remove();
                         dragNbPiece = d.piece.length - i;
                         dragFrom = [d.x, d.y]
 
