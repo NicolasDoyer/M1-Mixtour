@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tournament;
+use App\Entity\User;
 use App\Form\TournamentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,30 @@ class TournamentController extends AbstractController{
         return $this->render('page/editTournament.html.twig', array(
             'edit_form' => $form->createView()
         ));
+    }
+
+    public function registration(Tournament $tournament, User $user){
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $tournament->addUser($user);
+        $manager->persist($tournament);
+        $manager->flush();
+
+        return $this->redirectToRoute('tournaments');
+
+    }
+
+    public function unregistration(Tournament $tournament, User $user){
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $tournament->removeUser($user);
+        $manager->persist($tournament);
+        $manager->flush();
+
+        return $this->redirectToRoute('tournaments');
+
     }
 
 }
