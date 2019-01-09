@@ -19,7 +19,7 @@ class TournamentType extends AbstractType
                 'label' => 'Nom'
             ))
             ->add('date', DateTimeType::class, array(
-                'label' => 'Date'
+                'label' => 'Date',
             ))
             ->add('description', TextareaType::class, array(
                 'label' => 'Description'
