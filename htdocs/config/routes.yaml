@@ -43,3 +43,7 @@ tournamentRegistration:
 tournamentUnregistration:
   path: /tournaments/{tournament}/unregistration/{user}
   controller: App\Controller\TournamentController::unregistration
+
+mesMatchs:
+  path: /mesMatchs/{user}
+  controller: App\Controller\MatchController::index
