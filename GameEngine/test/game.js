@@ -165,7 +165,7 @@ describe('Game engine', () => {
         game.board.cells[3][1] = '';
         game.board.cells[4][0] = 'WRWR';
         assert.throws(() => {
-            game.play(game.players['W'], {type: 'move', from: [4,0], to: [0,4], nbPieces: 4})
+            game.play(game.players['R'], {type: 'move', from: [4,0], to: [0,4], nbPieces: 4})
         }, { name: 'Error', message: 'Unempty cells between start and end' });
     })
 
