@@ -24,6 +24,11 @@ register:
   path: /register
   controller: App\Controller\SecurityController::register
 
+match:
+  path: /match
+  controller: App\Controller\MatchController::play
+
+
 tournaments:
   path: /tournaments
   controller: App\Controller\TournamentController::index
