@@ -10,7 +10,20 @@ socket.on('fuck', (error) => {
     d3.select('#match-info')
         .text(error.msg);
 })
-socket.emit('goToQueue');
+
+fetch('/api/createtoken').then(response => {
+    console.log(response);
+    if(response.status === 200) {
+        response.json().then(json => {
+            socket.emit('goToQueue', json.token);
+        })
+    } else {
+        response.json().then(json => {
+            d3.select('#match-info').text(json.message);
+        });
+    }
+});
+
 socket.on('queueValidation', () => {
     socket.on('board', (game) => {
         d3.select('#match-info')
