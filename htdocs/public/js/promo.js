@@ -11,10 +11,10 @@ $(window).load(function() {
     $('#myCarousel .list-group-item').outerHeight(triggerheight);
 });
 
-var monthNames = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
-var dayNames= ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+var monthNames = [ "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin",
+    "Juillet", "aout", "Septembre", "Octobre", "Novembre", "Decembre" ];
+var dayNames= ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"]
 
 var newDate = new Date();
-newDate.setDate(newDate.getDate() + 1);
+newDate.setDate(newDate.getDate());
 $('#Date').html(dayNames[newDate.getDay()] + ", " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());

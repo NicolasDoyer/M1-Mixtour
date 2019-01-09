@@ -3,13 +3,36 @@
 {% block title 'Mixtour' %}
 
 {% block body %}
-    <div class="jumbotron">Création Tournoi</div>
+    <div class="jumbotron"><h2>Création d'un Tournoi </h2></div>
 
     <div class="container mt-4">
         {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary" type="submit">Créer</button>
-        <a class="nav-link" href="{{ path('tournaments') }}">Retour</a>
+        {{ form_errors(form) }}
+            <div>
+                {{ form_row(form.name) }}
+            </div>
+
+            <div>
+                {{ form_row(form.date) }}
+            </div>
+
+            <div>
+                {{ form_row(form.description) }}
+            </div>
+            <div class="form-group">
+                <!-- Button -->
+                <div class="col-md-offset-3 col-md-9">
+                    <button type="submit" class="btn btn-info"><i class="icon-hand-right"></i> Créer</button>
+                </div>
+            </div>
+
+            <div style=""  class="form-group">
+
+                <div class="col-md-offset-3 col-md-9">
+                    <a class="btn btn-danger" href="{{ path('tournaments') }}">Retour</a>
+                </div>
+
+            </div>
 
         {{ form_end(form) }}
     </div>

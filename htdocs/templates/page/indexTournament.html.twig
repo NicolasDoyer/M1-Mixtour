@@ -7,14 +7,14 @@
 {% endblock %}
 
 {% block body %}
-    <div class="jumbotron">Liste Tournois</div>
+    <div class="jumbotron"><h2>Liste Tournois</h2></div>
 
     <div class="center-block">
         <table id="tournament" class="table table-striped table-bordered" style="width:90%;margin : 0px auto; ">
             <thead>
             <tr>
                 <th class="text-center">Nom</th>
-                <th class="text-center">Date</th>
+                <th class="text-center">Date de debut</th>
                 <th class="text-center">Description</th>
                 <th class="text-center"></th>
             </tr>
@@ -23,17 +23,18 @@
                 {% for tournament in tournaments %}
                     <tr>
                         <td class="text-center">{{ tournament.name }}</td>
-                        <td class="text-center">{{ tournament.name }}</td>
+                        <td class="text-center">{{ tournament.date | date("d/m/y à h:i'") }}</td>
                         <td class="text-center">{{ tournament.description }}</td>
-                        <td class="text-center"><a class="nav-link btn btn-info" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">Modifier</a></td>
+
+                        <td class="text-center"><a class="nav-link btn btn-outline-success" href="{{ path('tournamentEdit', {'tournament' : tournament.id}) }}">S'inscrire</a></td>
                     </tr>
 
                 {% endfor %}
             </tbody>
         </table>
         <br>
-        <div class="center-block" style="margin: 0px auto">
-            <a class="btn btn-info text-center" href="{{ path('tournamentNew') }}">Créer un tournoi</a>
+        <div class="center-block" style="margin: 10px">
+            <a class="btn btn-info text-center center-blok" href="{{ path('tournamentNew') }}">Créer un tournoi</a>
         </div>
     </div>
 
