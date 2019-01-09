@@ -1,6 +1,19 @@
 security:
 
+    role_hierarchy:
+        ROLE_READER: ROLE_USER
+        ROLE_ADMIN: ROLE_READER
+
     providers:
+        in_memory:
+            memory:
+                users:
+                    ryan:
+                        password: test
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: $2y$12$Z48IGidA2Comkatzor6bMODb3QxlRo94vQp72few8.HrSaZZhZByq
+                        roles: 'ROLE_ADMIN'
         from_database:
             entity:
                 class: App\Entity\User
@@ -10,21 +23,41 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        login:
+            pattern: ^/api/login
+            stateless: true
+            anonymous: true
+            provider: in_memory
+            form_login:
+                check_path: /api/login_check
+                username_parameter: _username
+                password_parameter: _password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
         main:
             anonymous: true
-
+            provider: from_database
             form_login:
-                check_path: login
-
+                check_path: /signin
             logout:
                 path: /logout
                 target: /
+        api:
+            pattern:  ^/api
+            stateless: true
+            anonymous: false
+            provider: in_memory
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        # - { path: ^/, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
 
     encoders:
         App\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+        Symfony\Component\Security\Core\User\User:
             algorithm: bcrypt
             cost: 12
