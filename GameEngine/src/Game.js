@@ -56,6 +56,7 @@ export class Game {
     }
 
     checkSamePreviousBoard() {
+        console.log(this.board, this.p1Board, this.p2Board);
         for (var i = 0; i < this.board.SIZE; i++) {
             for (var j = 0; j < this.board.SIZE; j++) {
                 if (this.board.cells[i][j] !== this.p2Board.cells[i][j]) {
