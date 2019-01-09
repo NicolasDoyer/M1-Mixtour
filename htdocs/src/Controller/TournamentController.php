@@ -12,13 +12,16 @@ class TournamentController extends AbstractController{
 
     public function index()
     {
-        $tournaments = $this->getDoctrine()
-            ->getRepository(Tournament::class)
-            ->findAll();
+        if($this->getUser()){
+            $tournaments = $this->getDoctrine()
+                ->getRepository(Tournament::class)
+                ->findAll();
 
-        return $this->render('page/indexTournament.html.twig', [
-            'tournaments' => $tournaments,
-        ]);
+            return $this->render('page/indexTournament.html.twig', [
+                'tournaments' => $tournaments,
+            ]);
+        }
+        return $this->redirectToRoute('security_login');
     }
 
     public function new(Request $request)

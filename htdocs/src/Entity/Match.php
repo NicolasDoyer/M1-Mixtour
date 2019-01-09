@@ -23,14 +23,6 @@ class Match
      */
     private $joueur2;
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\Column(nullable=true).
-     */
-    private $vainqueur;
-
-
     /**
      * @ORM\ManyToOne(targetEntity="Tournament")
      */
@@ -48,6 +40,11 @@ class Match
      * @ORM\Column(type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $vainqueur;
 
     public function getId(): ?int
     {

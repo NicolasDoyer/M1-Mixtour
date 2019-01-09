@@ -40,9 +40,15 @@ class Tournament
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Elo", mappedBy="tournament")
+     */
+    private $elos;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->elos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +113,37 @@ class Tournament
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Elo[]
+     */
+    public function getElos(): Collection
+    {
+        return $this->elos;
+    }
+
+    public function addElo(Elo $elo): self
+    {
+        if (!$this->elos->contains($elo)) {
+            $this->elos[] = $elo;
+            $elo->setTournament($this);
+        }
+
+        return $this;
+    }
+
+    public function removeElo(Elo $elo): self
+    {
+        if ($this->elos->contains($elo)) {
+            $this->elos->removeElement($elo);
+            // set the owning side to null (unless already changed)
+            if ($elo->getTournament() === $this) {
+                $elo->setTournament(null);
+            }
         }
 
         return $this;
