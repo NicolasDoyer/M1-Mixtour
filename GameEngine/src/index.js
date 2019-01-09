@@ -56,7 +56,7 @@ function checkQueue() {
           emitBoard();
           if (game.finished) {
             sockets.forEach((socket) => {
-              goToQueue.apply(socket, [token]);
+              goToQueue.apply(socket, [socket.token]);
               socket.emit('board', {
                 board: game.board.cells,
                 finished: game.finished,

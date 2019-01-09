@@ -21,4 +21,12 @@ class MatchController extends AbstractController{
         return $this->redirectToRoute('security_login');
     }
 
+    public function play()
+    {
+        if($this->getUser()){
+            return $this->render('match/match.html.twig');
+        }
+        return $this->redirectToRoute('security_login');
+    }
+
 }
