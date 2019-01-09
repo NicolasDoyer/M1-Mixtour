@@ -2,12 +2,23 @@ home:
   path: /
   controller: App\Controller\HomeController::index
 
-login:
-  path: /login
-  controller: App\Controller\SecurityController::login
+security_login:
+  path: /signin
+  controller: App\Controller\SecurityController::signin
 
-logout:
+security_logout:
   path: /logout
+
+api_login_check:
+  path: /api/login_check
+
+verify_token:
+  path: /api/verifytoken
+  controller: App\Controller\ApiController::verify_token
+
+create_token:
+  path: /api/createtoken
+  controller: App\Controller\ApiController::create_token
 
 register:
   path: /register

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController{
 
-    public function login(AuthenticationUtils $authenticationUtils){
+    public function signin(AuthenticationUtils $authenticationUtils){
         if(!$this->getUser()){
             $lastUsername = $authenticationUtils->getLastUsername();
             $error = $authenticationUtils->getLastAuthenticationError();
