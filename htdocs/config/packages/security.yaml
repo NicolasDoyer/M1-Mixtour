@@ -39,10 +39,9 @@ security:
             anonymous: true
             provider: from_database
             form_login:
-                check_path: /signin
+                check_path: /login
             logout:
                 path: /logout
-                target: /
         api:
             pattern:  ^/api
             stateless: true

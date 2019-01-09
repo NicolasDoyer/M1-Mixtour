@@ -44,6 +44,16 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Elo", mappedBy="user")
+     */
+    private $elos;
+
+    public function __construct()
+    {
+        $this->elos = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -170,5 +180,36 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password
             ) = unserialize($serialized, array('allowed_class' => false));
+    }
+
+    /**
+     * @return Collection|Elo[]
+     */
+    public function getElos(): Collection
+    {
+        return $this->elos;
+    }
+
+    public function addElo(Elo $elo): self
+    {
+        if (!$this->elos->contains($elo)) {
+            $this->elos[] = $elo;
+            $elo->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeElo(Elo $elo): self
+    {
+        if ($this->elos->contains($elo)) {
+            $this->elos->removeElement($elo);
+            // set the owning side to null (unless already changed)
+            if ($elo->getUser() === $this) {
+                $elo->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

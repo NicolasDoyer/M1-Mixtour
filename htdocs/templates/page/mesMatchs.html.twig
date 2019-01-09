@@ -7,17 +7,18 @@
 
     <ul>
     {% for match in matchs %}
-        {% if match.vainqueur.id == app.user.id %}
-            <li style="background-color: green">
-                {{ match.tournoi.name }} : {{ match.joueur1.fullname }} - {{ match.joueur2.fullname }}
-            </li>
-        {% elseif match.vainqueur == NULL %}
+
+        {% if not match.vainqueur_id %}
             <li style="background-color: grey">
-                {{ match.tournoi.name }} : {{ match.joueur1.fullname }} - {{ match.joueur2.fullname }}
+                {{ match.id }} draw
             </li>
+            {% elseif match.vainqueur_id == app.user.id %}
+                <li style="background-color: green">
+                    {{ match.id }} win
+                </li>
             {% else %}
                 <li style="background-color: red">
-                    {{ match.tournoi.name }} : {{ match.joueur1.fullname }} - {{ match.joueur2.fullname }}
+                    {{ match.id }}  loose
                 </li>
         {% endif %}
     {% endfor %}
