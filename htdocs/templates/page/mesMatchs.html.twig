@@ -7,6 +7,7 @@
 
     <ul>
     {% for match in matchs %}
+        {{ dump(match) }}
 
         {% if not match.vainqueur_id %}
             <li style="background-color: grey">

@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Match;
+use App\Entity\Duel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Match|null find($id, $lockMode = null, $lockVersion = null)
- * @method Match|null findOneBy(array $criteria, array $orderBy = null)
- * @method Match[]    findAll()
- * @method Match[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Duel|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Duel|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Duel[]    findAll()
+ * @method Duel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MatchRepository extends ServiceEntityRepository
+class DuelRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Match::class);
+        parent::__construct($registry, Duel::class);
     }
 
     public function findAllMatchesByUser($user): array
@@ -24,7 +24,7 @@ class MatchRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-        SELECT * FROM `match` m
+        SELECT * FROM `duel` m
         WHERE m.joueur1_id = :user OR m.joueur2_id = :user';
         $stmt = $conn->prepare($sql);
         $stmt->execute(['user' => $user->getId()]);
