@@ -56,7 +56,6 @@ export class Game {
     }
 
     checkSamePreviousBoard() {
-        console.log(this.board, this.p1Board, this.p2Board);
         for (var i = 0; i < this.board.SIZE; i++) {
             for (var j = 0; j < this.board.SIZE; j++) {
                 if (this.board.cells[i][j] !== this.p2Board.cells[i][j]) {
@@ -105,12 +104,6 @@ export class Game {
         // Ah bah non
             this.board.cells[startRow][startCol] += this.board.cells[endRow][endCol].slice(-nbPieces);
             this.board.cells[endRow][endCol] = this.board.cells[endRow][endCol].slice(0, this.board.cells[endRow][endCol].length - nbPieces);
-
-            for (var i = 0; i < this.board.BOARD_SIZE; i++) {
-                for (var j = 0; j < this.board.BOARD_SIZE; j++) {
-                    console.log(this.p1Board[i][j] +'\n'+ this.board.cells[i][j]);
-                }
-            }
 
             throw new Error('Cannot return to previous board');
         }
@@ -176,7 +169,7 @@ export class Game {
             player.pass = false;
         } else if (move.type === 'pass') {
             player.pass = true;
-            if (this.players['R'].pass === true && this.players['R'].pass === true) {
+            if (this.players['R'].pass === true && this.players['W'].pass === true) {
                 this.draw = true;
                 this.finished == true;
             }
