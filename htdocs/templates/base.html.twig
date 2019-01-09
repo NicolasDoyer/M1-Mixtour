@@ -18,6 +18,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('home') }}">Accueil</a>
             </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('tournaments') }}">Tournois</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('mesMatchs', {'user' : app.user.id}) }}">Mes Matchs</a>
+                </li>
+            {% endif %}
+
         </ul>
         {% if app.user %}
             <a href="{{ path('security_logout') }}">
