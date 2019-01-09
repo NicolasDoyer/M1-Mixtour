@@ -9,7 +9,8 @@ export class Game {
         this.max_tour_height = 5;
 
         this.board = new Board();
-        this.previousBoard = new Board();
+        this.p1Board = new Board();
+        this.p2Board = new Board();
         this.turn = Piece.WHITE;
         this.players = {};
         this.winner = null;
@@ -38,20 +39,26 @@ export class Game {
         player.backpieces--;
     }
 
-    savePreviousBoard() {
-        for (var i = 0; i < this.board.BOARD_SIZE; i++) {
-            for (var j = 0; j < this.board.BOARD_SIZE; j++) {
-                for (var k = 0; k < this.board.cells[i][j].length; k++) {
-                    this.previousBoard[i][j][k] = this.board.cells[i][j][k];
-                }
+    saveP1Board() {
+        for (var i = 0; i < this.board.SIZE; i++) {
+            for (var j = 0; j < this.board.SIZE; j++) {
+                this.p1Board.cells[i][j] = this.board.cells[i][j];
+            }
+        }
+    }
+
+    saveP2Board() {
+        for (var i = 0; i < this.board.SIZE; i++) {
+            for (var j = 0; j < this.board.SIZE; j++) {
+                this.p2Board.cells[i][j] = this.p1Board.cells[i][j];
             }
         }
     }
 
     checkSamePreviousBoard() {
-        for (var i = 0; i < this.board.BOARD_SIZE; i++) {
-            for (var j = 0; j < this.board.BOARD_SIZE; j++) {
-                if (this.board.cells[i][j] !== this.previousBoard[i][j]) {
+        for (var i = 0; i < this.board.SIZE; i++) {
+            for (var j = 0; j < this.board.SIZE; j++) {
+                if (this.board.cells[i][j] !== this.p2Board.cells[i][j]) {
                     return true;
                 }
             }
@@ -100,14 +107,15 @@ export class Game {
 
             for (var i = 0; i < this.board.BOARD_SIZE; i++) {
                 for (var j = 0; j < this.board.BOARD_SIZE; j++) {
-                    console.log(this.previousBoard[i][j] +'\n'+ this.board.cells[i][j]);
+                    console.log(this.p1Board[i][j] +'\n'+ this.board.cells[i][j]);
                 }
             }
 
             throw new Error('Cannot return to previous board');
         }
 
-        this.savePreviousBoard();
+        this.saveP2Board();
+        this.saveP1Board();
 
         // Check win
         if (this.board.cells[endRow][endCol].length >= this.max_tour_height) {
