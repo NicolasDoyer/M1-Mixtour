@@ -198,4 +198,21 @@ describe('Game engine', () => {
         game.play(game.players['R'], {type: 'pass'});
         assert.equal(game.draw, true);
     })
+
+    it('checks cancel last move', () => {
+        const game = new Game();
+
+        game.board.cells[1][1] = 'RWR';
+        game.board.cells[2][2] = 'R';
+
+        game.play(game.players['W'], {type: 'move', from: [1,1], to: [2,2], nbPieces: 2});
+
+        assert.doesNotThrow(() => {
+            game.play(game.players['R'], {type: 'move', from: [2,2], to: [1,1], nbPieces: 1})
+        }, Error);
+        assert.throws(() => {
+            game.play(game.players['W'], {type: 'move', from: [1,1], to: [2,2], nbPieces: 1})
+        }, { name: 'Error', message: 'Cannot return to previous board' });
+        assert.equal(game.turn, Piece.WHITE);
+    })
 })
